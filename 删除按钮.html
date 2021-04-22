@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* reset start */
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            overflow: hidden;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* reset end */
+
+        #d1 {
+            position: absolute;
+            top: 200px;
+            left: 200px;
+            width: 200px;
+            height: 200px;
+            border: 3px solid black;
+            border-radius: 50%;
+            box-sizing: content-box;
+        }
+
+        #d1>div {
+            position: absolute;
+            width: 2px;
+            height: 200px;
+            background-color: black;
+            top: 0;
+            left: 50%;
+            margin-left: -1px;
+            transform-origin: center center;
+            transition: 1s;
+        }
+
+        #d1>div:nth-of-type(1) {
+            transform: rotateZ(45deg);
+        }
+
+        #d1>div:nth-of-type(2) {
+            transform: rotateZ(-45deg);
+        }
+
+        #d1:hover>div:nth-of-type(1) {
+            transform: rotateZ(135deg);
+        }
+
+        #d1:hover>div:nth-of-type(2) {
+            transform: rotateZ(45deg);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="d1">
+        <div></div>
+        <div></div>
+    </div>
+    <script>
+
+    </script>
+</body>
+
+</html>

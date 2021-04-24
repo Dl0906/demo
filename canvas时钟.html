@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* reset start */
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            overflow: hidden;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* reset end */
+        #cvs {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="cvs" width="300px" height="400px"
+        style="border: 1px solid black;border-radius: 20px;;background-color: indianred;box-sizing: content-box;"></canvas>
+    <script>
+        window.onload = function () {
+            let cvs = document.getElementById('cvs');
+            /* 
+                配置时分秒针颜色:
+            */
+            let hourColor = '#f58a12';
+            let minColor = '#aa2569';
+            let secColor = '#250156';
+            drawClock();
+
+            function getDate() {
+                let date = new Date();
+                let h = date.getHours();
+                let m = date.getMinutes();
+                let s = date.getSeconds();
+                let ms = date.getMilliseconds();
+                let obj = {
+                    h: h,
+                    m: m,
+                    s: s,
+                    ms: ms
+                };
+                // console.log(`${obj.h}:${obj.m}:${obj.s}:${obj.ms}`);
+
+                return obj;
+            }
+
+            function setDate(ctx) {
+                let time = getDate();
+                if (time.h >= 12) {
+                    time.h -= 12;
+                }
+                let hDeg = (time.h * Math.PI / 6) + (time.m / 60 * Math.PI / 360) + (time.s / 60 * Math.PI / 21600);
+                let h_x = 50 * sin(hDeg);
+                let h_y = -50 * cos(hDeg);
+                let mDeg = (time.m / 30 * Math.PI) + (time.s / 60 * Math.PI / 30);
+                let m_x = 65 * sin(mDeg);
+                let m_y = -65 * cos(mDeg);
+                let sDeg = time.s / 30 * Math.PI + time.ms * Math.PI / 30000;
+                let s_x = 80 * Math.sin(sDeg);
+                let s_y = -80 * Math.cos(sDeg);
+                drawLine(ctx, h_x, h_y, hourColor);
+                drawLine(ctx, m_x, m_y, minColor);
+                drawLine(ctx, s_x, s_y, secColor);
+            }
+
+            function sin(deg) {
+                return Math.sin(deg);
+            }
+
+            function cos(deg) {
+                return Math.cos(deg);
+            }
+
+            function drawLine(ctx, x, y, color) {
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(x, y);
+                ctx.strokeStyle = color;
+                ctx.stroke();
+            }
+
+            function drawClock() {
+                let ctx = cvs.getContext('2d');
+                ctx.translate(150, 150);
+
+
+                setInterval(function () {
+
+                    ctx.clearRect(-150, -150, 300, 400);
+
+                    ctx.beginPath();
+                    ctx.arc(0, 0, 120, 0, 2 * Math.PI, false);
+                    ctx.moveTo(130, 0);
+                    ctx.arc(0, 0, 130, 0, 2 * Math.PI, false);
+                    ctx.strokeStyle = 'black';
+                    ctx.stroke();
+
+                    let time = getDate();
+                    let h = time.h;
+                    let m = time.m.toString().padStart(2, '0');
+                    let s = time.s.toString().padStart(2, '0');
+                    // while (ctx.measureText(`${h}:${m}:${s}`).width > 140) {
+                    //     fs--;
+                    // }
+                    // console.log(fs);
+
+                    setDate(ctx);
+                    drawNum(ctx);
+                    writeTime(ctx, h, m, s);
+
+                    function drawNum(ctx) {
+                        ctx.font = "bold 14px '微软雅黑'";
+                        ctx.textAlign = "center";
+                        ctx.textBaseline = "middle";
+                        ctx.fillText("12", 0, -90);
+                        ctx.fillText('1', 45, -45 * Math.sqrt(3));
+                        ctx.fillText('2', 45 * Math.sqrt(3), -45);
+                        ctx.fillText('3', 90, 0);
+                        ctx.fillText('4', 45 * Math.sqrt(3), 45);
+                        ctx.fillText('5', 45, 45 * Math.sqrt(3));
+                        ctx.fillText('6', 0, 90);
+                        ctx.fillText('7', -45, 45 * Math.sqrt(3));
+                        ctx.fillText('8', -45 * Math.sqrt(3), 45);
+                        ctx.fillText('9', -90, 0);
+                        ctx.fillText('10', -45 * Math.sqrt(3), -45);
+                        ctx.fillText('11', -45, -45 * Math.sqrt(3));
+                    }
+
+                    function writeTime(ctx, h, m, s) {
+                        // console.log(`${h}:${m}:${s}`);
+
+                        ctx.font = 15 + 'px Arial';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'bottom';
+                        ctx.fillText(`${h}:${m}:${s}`, 0, 200);
+                    }
+                }, 1000 / 60);
+            }
+        }
+    </script>
+</body>
+
+</html>

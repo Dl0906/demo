@@ -54,9 +54,23 @@
             /* 
                 配置时分秒针颜色:
             */
-            let hourColor = '#f58a12';
-            let minColor = '#aa2569';
-            let secColor = '#250156';
+            let hourSet = {
+                color: 'black',
+                lineWidth: 5,
+                lineCap: 'round'
+            };
+            let minSet = {
+                color: 'black',
+                lineWidth: 3,
+                lineCap: 'round'
+            };
+
+            let secSet = {
+                color: "red",
+                lineWidth: 1,
+                lineCap: 'round'
+            };
+
             drawClock();
 
             function getDate() {
@@ -90,9 +104,9 @@
                 let sDeg = time.s / 30 * Math.PI + time.ms * Math.PI / 30000;
                 let s_x = 80 * Math.sin(sDeg);
                 let s_y = -80 * Math.cos(sDeg);
-                drawLine(ctx, h_x, h_y, hourColor);
-                drawLine(ctx, m_x, m_y, minColor);
-                drawLine(ctx, s_x, s_y, secColor);
+                drawLine(ctx, h_x, h_y, hourSet);
+                drawLine(ctx, m_x, m_y, minSet);
+                drawLine(ctx, s_x, s_y, secSet);
             }
 
             function sin(deg) {
@@ -103,11 +117,13 @@
                 return Math.cos(deg);
             }
 
-            function drawLine(ctx, x, y, color) {
+            function drawLine(ctx, x, y, setObj) {
                 ctx.beginPath();
                 ctx.moveTo(0, 0);
                 ctx.lineTo(x, y);
-                ctx.strokeStyle = color;
+                ctx.strokeStyle = setObj.color;
+                ctx.lineWidth = setObj.lineWidth;
+                ctx.lineCap = setObj.lineCap;
                 ctx.stroke();
             }
 

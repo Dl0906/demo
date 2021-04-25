@@ -81,7 +81,7 @@
                 if (time.h >= 12) {
                     time.h -= 12;
                 }
-                let hDeg = (time.h * Math.PI / 6) + (time.m / 60 * Math.PI / 360) + (time.s / 60 * Math.PI / 21600);
+                let hDeg = (time.h * Math.PI / 6) + (time.m * Math.PI / 360) + (time.s / 60 * Math.PI / 360);
                 let h_x = 50 * sin(hDeg);
                 let h_y = -50 * cos(hDeg);
                 let mDeg = (time.m / 30 * Math.PI) + (time.s / 60 * Math.PI / 30);

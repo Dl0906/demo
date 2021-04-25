@@ -102,8 +102,8 @@
                 let m_x = 65 * sin(mDeg);
                 let m_y = -65 * cos(mDeg);
                 let sDeg = time.s / 30 * Math.PI + time.ms * Math.PI / 30000;
-                let s_x = 80 * Math.sin(sDeg);
-                let s_y = -80 * Math.cos(sDeg);
+                let s_x = 80 * sin(sDeg);
+                let s_y = -80 * cos(sDeg);
                 drawLine(ctx, h_x, h_y, hourSet);
                 drawLine(ctx, m_x, m_y, minSet);
                 drawLine(ctx, s_x, s_y, secSet);

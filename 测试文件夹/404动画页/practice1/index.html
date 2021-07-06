@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* reset start */
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            overflow: hidden;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        h1 {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+
+        /* reset end */
+
+        @import url("https://fonts.googleapis.com/css?family=Varela+Round");
+
+        body {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-color: #1c8f8c;
+            margin: 0;
+            overflow: hidden;
+            font-family: "Varela Round", sans-serif;
+        }
+
+        .text-box {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .status-code {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            width: 515px;
+            max-width: 595px;
+            margin: auto;
+        }
+
+        .status-code p {
+            font-size: 250px;
+            margin: 3px 0 0 0;
+            color: #fefefe;
+            opacity: .8;
+        }
+
+        .zero {
+            position: absolute;
+            top: 48px;
+            left: calc(50% - 85px);
+            width: 170px;
+            height: 190px;
+        }
+
+        .zero_top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            box-sizing: border-box;
+            overflow: hidden;
+            z-index: 20;
+        }
+
+        .zero_top-inner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 170px;
+            height: 100%;
+            border: 33px solid #fefefe;
+            box-sizing: border-box;
+            border-radius: 50%;
+            opacity: .8;
+        }
+
+        .zero_bottom {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .zero_bottom-inner {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 170px;
+            height: 100%;
+            border: 33px solid #fefefe;
+            box-sizing: border-box;
+            border-radius: 50%;
+            opacity: .8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="text-box">
+        <div class="status-code">
+            <p>4</p>
+            <div class="zero">
+                <div class="zero_top">
+                    <div class="zero_top-inner"></div>
+                </div>
+                <div class="zero_bottom">
+                    <div class="zero_bottom-inner"></div>
+                </div>
+            </div>
+            <p>4</p>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* reset start */
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            overflow: hidden;
+            cursor: none;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* reset end */
+        #cursor {
+            width: 20px;
+            height: 20px;
+            border: 0.5px solid black;
+            border-radius: 50%;
+            background-color: black;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="cursor"></div>
+    <script>
+        // window.onload = function () {
+        //     customizeMouseStyle();
+
+        //     function customizeMouseStyle() {
+        //         const oDiv = document.getElementById('cursor');
+        //         if (oDiv.style.opacity == 0) {
+        //             oDiv.style.opacity = 1;
+        //         }
+
+        //         let w = oDiv.offsetWidth;
+        //         let h = oDiv.offsetHeight;
+        //         const body = document.body;
+        //         let valid = true;
+        //         let timeStamp = {
+        //             initial: 0,
+        //             val: 0,
+        //             next: 0
+        //         };
+        //         Object.defineProperty(timeStamp, 'initial', {
+        //             configurable: true,
+        //             enumerable: true,
+        //             set(val) {
+        //                 this.val = val;
+        //                 this.next = val + 1000 / 60;
+        //             },
+        //             get() {
+        //                 return this.val;
+        //             }
+        //         });
+        //         body.addEventListener('mousemove', function (ev) {
+        //             const e = ev;
+        //             if (valid) {
+        //                 timeStamp.initial = Date.now();
+        //                 valid = false;
+        //             }
+        //             if (Date.now() >= timeStamp.next) {
+        //                 valid = true;
+        //                 follow(e);
+        //             }
+        //         }, false);
+
+        //         // function throttle(fn, delay, e) {
+        //         //     // 对于持续触发的事件实行按间隔时间执行
+        //         //     let timeStamp = Date.now();
+        //         //     return () => {
+        //         //         if (Date.now() - timeStamp < delay) {
+        //         //             return;
+        //         //         } else {
+        //         //             timeStamp += delay;
+        //         //             console.log('调用fn函数');
+        //         //             fn(e);
+        //         //         }
+        //         //     }
+        //         // }
+
+        //         function follow(ev) {
+        //             let mouseX = ev.offsetX - w / 2;
+        //             let mouseY = ev.offsetY - h / 2;
+        //             oDiv.style.top = mouseY + 'px';
+        //             oDiv.style.left = mouseX + 'px';
+        //             console.log(`x:${mouseX};y:${mouseY}`);
+
+        //         }
+        //     }
+        // }
+
+        window.onload = function () {
+            // customizeMouse();
+
+            // function customizeMouse() {
+            //     const oDiv = document.getElementById('cursor');
+            //     let timeStamp = {
+            //         val: 0
+            //     };
+            //     Object.defineProperties(timeStamp, {
+            //         'initial': {
+            //             configurable: true,
+            //             enumerable: true,
+            //             get() {
+            //                 return this.val;
+            //             },
+            //             set(val) {
+            //                 this.val = val;
+            //             }
+            //         },
+            //         'next': {
+            //             configurable: true,
+            //             enumerable: true,
+            //             get() {
+            //                 return this.val + 1000 / 60;
+            //             },
+            //             set(val) {
+            //                 console.error('timeStamp.next is not allowed to set');
+            //             }
+            //         }
+            //     })
+            //     let mx, my;
+            //     let valid = true;
+            //     document.body.addEventListener('mousemove', (e) => {
+            //         if (valid) {
+            //             timeStamp.initial = Date.now();
+            //             mx = e.offsetX;
+            //             my = e.offsetY;
+            //             valid = false;
+            //         }
+
+            //         if (Date.now() >= timeStamp.next) {
+            //             valid = true;
+            //             follow();
+            //         }
+
+            //         function follow() {
+            //             oDiv.style.top = my + 'px';
+            //             oDiv.style.left = mx + 'px';
+            //         }
+            //     }, false);
+            // }
+            let mx;
+            let my;
+            const oDiv = document.getElementById('cursor');
+            document.body.addEventListener('mousemove', (e) => {
+                mx = e.offsetX;
+                my = e.offsetY;
+                oDiv.style.top = my + 'px';
+                oDiv.style.left = mx + 'px';
+            }, false);
+        }
+    </script>
+</body>
+
+</html>

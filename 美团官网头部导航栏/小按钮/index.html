@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* reset start */
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            overflow: hidden;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* reset end */
+
+        .btn {
+            width: 30px;
+            height: 25px;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin: 100px 100px;
+            cursor: pointer;
+        }
+
+        .btn>.inner {
+            width: 100%;
+            height: 4px;
+            background-color: #000;
+            transform-origin: left center;
+            transition: transform .5s,opacity .2s;
+        }
+
+        .btn:hover>.inner:nth-of-type(1) {
+            transform: rotateZ(45deg);
+        }
+
+        .btn:hover>.inner:nth-of-type(2){
+            opacity: 0;
+        }
+
+        .btn:hover>.inner:nth-of-type(3) {
+            transform: rotateZ(-45deg);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="btn">
+        <div class="inner"></div>
+        <div class="inner"></div>
+        <div class="inner"></div>
+    </div>
+</body>
+
+</html>

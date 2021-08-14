@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* reset start */
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            overflow: hidden;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* reset end */
+        #container {
+            display: flex;
+            flex-wrap: wrap;
+            width: 652px;
+            border: 5px solid black;
+            /* 204*3+30+10 */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 15px;
+            position: relative;
+        }
+
+        img {
+            width: 200px;
+            height: 150px;
+            vertical-align: bottom;
+        }
+
+        img[src=""] {
+            /* visibility: hidden; */
+            opacity: 0;
+        }
+
+        .item {
+            border: 2px solid black;
+            margin: 5px;
+            cursor: move;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .item_init,
+        .item_target {
+            border-color: cornflowerblue;
+            background-color: wheat;
+        }
+
+        .item_clone {
+            position: absolute;
+            border-color: cornflowerblue;
+        }
+    </style>
+</head>
+
+<body>
+    <ul id="container">
+        <li class="item"><img src="./img/1.png" alt=""></li>
+        <li class="item"><img src="./img/2.png" alt=""></li>
+        <li class="item"><img src="./img/3.png" alt=""></li>
+        <li class="item"><img src="./img/4.png" alt=""></li>
+        <li class="item"><img src="./img/5.png" alt=""></li>
+        <li class="item"><img src="./img/6.png" alt=""></li>
+        <li class="item"><img src="./img/7.png" alt=""></li>
+        <li class="item"><img src="./img/8.png" alt=""></li>
+        <li class="item"><img src="./img/9.png" alt=""></li>
+    </ul>
+    <script src="../node_modules/jquery/dist/jquery.js"></script>
+    <script>
+        let canMove = true
+        let i = 0
+        $(function () {
+            $('#container>.item').mousedown(function (e) {
+                e.preventDefault()
+                e.stopPropagation()
+                if (canMove) {
+                    console.log(`第${i++}次点击产生克隆item`)
+                    canMove = false
+                    let initX = e.offsetX
+                    let initY = e.offsetY
+                    let $initItem = $(this)
+                    $initItem.addClass('item_init')
+                    let $cloneInitItem = $initItem.clone(true).addClass('item_clone').css($initItem.position()).appendTo('#container')
+                    $initItem.html('<img>')
+
+
+                    // 步骤2：移动
+                    $('#container').mousemove(function (e) {
+                        console.log(`第${i}次调用mousemove事件`)
+                        e.preventDefault()
+                        $cloneInitItem.css({
+                            top: e.pageY - initY - $(this).offset().top,
+                            left: e.pageX - initX - $(this).offset().left
+                        })
+                    })
+
+                    // 步骤3：释放
+                    $cloneInitItem.mouseup(function (e) {
+                        $('#container').off('mousemove')
+                        let $targetItem, minDis = 1000
+
+                        $('#container>.item').not(':last').each(function (index, value) {
+                            let dis = calcDis($cloneInitItem, $(this))
+                            if (minDis > dis) {
+                                minDis = dis
+                                $targetItem = $(this)
+                            }
+                        })
+
+                        if ($targetItem.index() === $initItem.index()) {
+                            // 回到原位置
+                            $cloneInitItem.stop(false, true).animate($initItem.position(), 300, function () {
+                                $initItem.html($cloneInitItem.html()).removeClass('item_init')
+                                $cloneInitItem.remove()
+                                canMove = true
+                            })
+                        } else {
+                            let $cloneTargetItem = $targetItem.clone(true).addClass('item_clone').css($targetItem.position())
+                                .appendTo('#container')
+                            $targetItem.html('<img>')
+                            $cloneInitItem.stop(false, true).animate($targetItem.position(), 300, function () {
+                                $targetItem.html($cloneInitItem.html()).removeClass('item_target')
+                                $(this).remove()
+                            })
+                            $cloneTargetItem.stop(false, true).animate($initItem.position(), 300, function () {
+                                $initItem.html($cloneTargetItem.html()).removeClass('item_init')
+                                $(this).remove()
+                                canMove = true
+                            })
+
+                        }
+                    })
+                }
+            })
+
+            function calcDis($cloneItem, $targetItem) {
+                let $cloneX = $cloneItem.position().left
+                let $cloneY = $cloneItem.position().top
+                let $targteX = $targetItem.position().left
+                let $targetY = $targetItem.position().top
+                return Math.sqrt(Math.pow($cloneX - $targteX, 2) + Math.pow($cloneY - $targetY, 2))
+            }
+
+            function throttle(fn, delay) {
+                let timer = null
+                return function () {
+                    let _this = this
+                    let args = arguments
+                    if (timer) clearTimeout(timer)
+                    timer = setTimeout(() => {
+                        fn.apply(_this, args)
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

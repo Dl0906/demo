@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/node_modules/cropperjs/dist/cropper.css">
+    <link rel="stylesheet" href="/public/main.css">
+</head>
+
+<body>
+    <button class="btn btn-showCrop">选择文件</button>
+    <div class="blackBackGround"></div>
+
+    <div id="tailoring-container">
+        <div id="tailoring-wrapper-one">
+            <input type="file" name="" id="selectImg" accept="image/jpg,image/jpeg,image/png" style="display: none;">
+            <button class="btn" id="selectImgBtn">选择图片</button>
+            <button class="cancelCrop" id="cancelCropBtn">x</button>
+        </div>
+        <div id="tailoring-wrapper-two">
+            <div class="leftArea">
+                <div class="imgCropArea">
+                    <img alt="" id="cropImg" src="">
+                </div>
+            </div>
+            <span class="divider"></span>
+            <div class="rightArea">
+                <div class="imgPreviewArea_square previewImg"></div>
+                <div class="imgPreviewArea_circular previewImg"></div>
+            </div>
+        </div>
+        <div id="tailoring-wrapper-three">
+            <button class="btn btn-reset">复位</button>
+            <button class="btn btn-rotate">旋转</button>
+            <button class="btn btn-scaleX">反转</button>
+            <button class="btn btn-success">确定</button>
+        </div>
+    </div>
+    <script src="/node_modules/jquery/dist/jquery.js"></script>
+    <script src="/node_modules/cropperjs/dist/cropper.js"></script>
+    <script>
+        // 按钮点击使 #tailoring-conatiner 显示
+        $(function () {
+            // .btn-showCrop 点击后显示裁剪框
+            let cropper;
+            $('.btn-showCrop').click(function (e) {
+                e.stopPropagation()
+                if ($('.blackBackGround').width() === 0) {
+                    build()
+                    $('.blackBackGround').stop(false, true).animate({
+                        "width": "100%",
+                        "height": "100%"
+                    }, 500)
+                    $('#tailoring-container').stop(false, true).animate({
+                        "width": "1100px",
+                        "height": "520px",
+                        "padding": "10px"
+                    }, 500)
+                } else {
+                    close()
+                    $('.blackBackGround,#tailoring-container').stop(false, false).animate({
+                        "width": 0,
+                        "height": 0,
+                        "padding": 0
+                    }, 500, function () {
+                        $('.rightArea').css({
+                            "opacity": 0
+                        })
+                    })
+                }
+            })
+
+            // #cancelCropBtn .blackBackGround 点击后取消显示裁剪框
+            $("#cancelCropBtn,.blackBackGround").click(function (e) {
+                e.stopPropagation()
+                close()
+                $('.blackBackGround,#tailoring-container').stop(false, false).animate({
+                    "width": 0,
+                    "height": 0,
+                    "padding": 0
+                }, 500, function () {
+                    $('.rightArea').css({
+                        "opacity": 0
+                    })
+                })
+            })
+
+            // 图像上传
+            // 点击 #selectImgBtn ，模拟点击 #selectImg
+            $('#selectImgBtn').click(function (e) {
+                e.stopPropagation()
+                $('#selectImg').trigger('click')
+            })
+
+
+            // 
+
+
+            // change 事件触发的时候改变img的
+            $('#selectImg').change(function (e) {
+                let file = e.target
+                if (!file.files || !file.files[0]) {
+                    window.alert('未选择文件或选择的文件格式不正确')
+                    return
+                }
+                let reader = new FileReader()
+                reader.readAsDataURL(file.files[0])
+                reader.onload = function (e) {
+                    let res = reader.result
+                    // console.log(res)
+                    // $('#cropImg').cropper('replace', res, true)
+                    cropper.replace(res, false)
+                    $('.rightArea').css({
+                        "opacity": 1
+                    })
+                }
+
+            })
+
+            // 三个按钮的处理
+            $(".btn-reset").click(function () {
+                cropper.reset()
+            })
+
+            $(".btn-rotate").click(function () {
+                cropper.rotate(90)
+            })
+
+            let flagX = true
+            $(".btn-scaleX").click(function () {
+                if (flagX) {
+                    cropper.scaleX(-1)
+                    flagX = false
+                } else {
+                    cropper.scaleX(1)
+                    flagX = true
+                }
+            })
+
+            // 裁剪后的处理
+            $(".btn-success").click(function () {
+                if ($("#cropImg").attr("src") == null) {
+                    window.alert('无法提交')
+                    return false
+                } else {
+                    cropper.getCroppedCanvas({
+                        width: 160,
+                        height: 90,
+                        minWidth: 256,
+                        minHeight: 256,
+                        maxWidth: 4096,
+                        maxHeight: 4096,
+                        fillColor: '#fff',
+                        imageSmoothingEnabled: false,
+                        imageSmoothingQuality: 'high',
+                    });
+                    cropper.getCroppedCanvas()
+                        .toBlob((blob) => {
+                            let formData = new FormData()
+                            formData.append("croppedImage", blob, 'cropImg.webp')
+                            console.log(formData.get("croppedImage"))
+                            $.ajax('/upload', {
+                                type: 'POST',
+                                cache: false,
+                                data: formData,
+                                processData: false, // 告诉jquery不要去处理发送的数据
+                                contentType: false, // 告诉jquery不要去设置Content-type的请求头
+                                success() {
+                                    console.log('Upload success')
+                                },
+                                error() {
+                                    console.log('Upload error')
+                                }
+                            })
+
+                            // let xhr = new XMLHttpRequest()
+                            // xhr.onreadystatechange = function () {
+                            //     if (xhr.readyState === 4) {
+                            //         if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
+                            //             console.log('Successs')
+                            //         } else {
+                            //             console.log(`ERROR`)
+                            //         }
+                            //     }
+                            // }
+
+                            // xhr.open('post', 'http://127.0.0.1:3000/upload', true)
+                            // xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+                            // xhr.send(formData)
+                        }, "image/webp", 1)
+                }
+            })
+
+            function close() {
+                console.log(`销毁cropper`)
+                cropper.destroy()
+            }
+
+            function build() {
+                console.log(`cropper 建立`)
+                let image = $('#cropImg').get(0)
+                cropper = new Cropper(image, {
+                    aspectRatio: 1 / 1, //默认比例
+                    preview: '.previewImg', //预览视图
+                    guides: true, //裁剪框的虚线(九宫格) false没有九宫格，true有
+                    autoCropArea: 0.5, //0-1之间的数值，定义自动剪裁区域的大小，默认0.8
+                    movable: false, //是否允许移动图片
+                    dragCrop: true, //是否允许移除当前的剪裁框，并通过拖动来新建一个剪裁框区域
+                    movable: true, //是否允许移动剪裁框
+                    resizable: true, //是否允许改变裁剪框的大小
+                    zoomable: true, //是否允许缩放图片大小
+                    mouseWheelZoom: false, //是否允许通过鼠标滚轮来缩放图片
+                    touchDragZoom: true, //是否允许通过触摸移动来缩放图片
+                    rotatable: true, //是否允许旋转图片
+                    viewMode: 2,
+                    crop(event) {
+                        console.log(event.detail.x);
+                        console.log(event.detail.y);
+                        console.log(event.detail.width);
+                        console.log(event.detail.height);
+                        console.log(event.detail.rotate);
+                        console.log(event.detail.scaleX);
+                        console.log(event.detail.scaleY);
+                    }
+                });
+            }
+        })
+    </script>
+</body>
+
+</html>

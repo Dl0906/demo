@@ -1,0 +1,222 @@
+/* reset start */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    overflow: hidden;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* reset end */
+
+// common style start
+
+// common style end
+
+#container {
+    width: 1100px;
+    height: 520px;
+    margin: 0 auto;
+    position: relative;
+    border: 2px solid black;
+    box-sizing: content-box;
+    overflow: hidden;
+
+    &>.leftArea,
+    &>.rightArea {
+        position: absolute;
+        width: 150px;
+        height: 100%;
+        top: 0;
+        opacity: 0;
+        cursor: pointer;
+        transition: .5s;
+        z-index: 10;
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, .3);
+        }
+
+        &:hover {
+            opacity: 1;
+        }
+
+        &>.arrow {
+            transform: rotateY(180deg);
+        }
+    }
+
+    &>.leftArea {
+        left: 0;
+    }
+
+    &>.rightArea {
+        right: 0;
+        transform: rotateY(180deg);
+    }
+
+
+    & .arrow {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        top: 50%;
+        left: 50%;
+        margin: -25px 0 0 -25px;
+
+        &>span {
+            position: absolute;
+            width: 100%;
+            height: 8px;
+            background-color: #fff;
+            top: 50%;
+            margin-top: -4px;
+            transform-origin: right center;
+            border-top-right-radius: 50px;
+            border-bottom-right-radius: 50px;
+
+            &:nth-of-type(1) {
+                transform: rotateZ(45deg);
+            }
+
+            &:nth-of-type(2) {
+                transform: rotateZ(-45deg);
+            }
+        }
+    }
+
+    &>.rotationChart {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        &>li {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transition: 1s ease-in;
+            overflow: hidden;
+            visibility: hidden;
+
+            &>img {
+                width: 100%;
+                height: 100%;
+            }
+
+            &.leftShow {
+                animation: leftShow 1s ease-in;
+                visibility: visible;
+            }
+
+            &.rightHide {
+                animation: rightHide 1s ease-in;
+            }
+
+            &.leftHide {
+                animation: leftHide 1s ease-in;
+            }
+
+            &.rightShow {
+                animation: rightShow 1s ease-in;
+                visibility: visible;
+            }
+
+            &.show{
+                visibility: visible;
+            }
+        }
+    }
+
+    &>.controlBtn {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        letter-spacing: -1em;
+        z-index: 5;
+
+        &>li {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 1px solid #fff;
+            border-radius: 50%;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        &>li.active {
+            background-color: rgba(255, 255, 255, .8);
+        }
+    }
+}
+
+@keyframes leftShow {
+    0% {
+        left: -1100px;
+    }
+
+    100% {
+        left: 0;
+    }
+}
+
+@keyframes rightHide {
+    0% {
+        left: 0;
+        visibility: visible;
+    }
+
+    100% {
+        left: 1100px;
+    }
+}
+
+
+@keyframes rightShow {
+    0% {
+        left: 1100px;
+    }
+
+    100% {
+        left: 0;
+    }
+}
+
+@keyframes leftHide {
+    0% {
+        left: 0;
+        visibility: visible;
+    }
+
+    100% {
+        left: -1100px;
+    }
+}

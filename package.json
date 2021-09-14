@@ -19,6 +19,8 @@
   "devDependencies": {
     "bootstrap": "^3.4.1",
     "cropperjs": "^1.5.12",
+    "express": "^4.17.1",
     "jquery": "^1.12.1"
-  }
+  },
+  "dependencies": {}
 }

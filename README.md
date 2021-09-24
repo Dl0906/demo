@@ -43,3 +43,5 @@ some simple animation exercises
 
 [预览样式](https://ayi0906.github.io/demo/幽灵按钮.html)
 
+### 封装swiper.js制作适配移动端的轮播图
+[预览样式](https://ayi0906.github.io/demo/轮播图swiper.js的封装/index.html)

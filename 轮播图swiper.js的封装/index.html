@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./swiper.css">
+    <style>
+        /* reset start */
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        html,
+        body,
+        #app {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            overflow: hidden;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* reset end */
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div id="swiper-container"></div>
+    </div>
+    <script src="./transformCSS.js"></script>
+    <script src="./swiper.js"></script>
+    <script>
+        new Swiper('#swiper-container', {
+            loop: true, // 是否无缝滚动, 默认值为true
+            auto: true, // 是否自动播放, 默认值为true
+            delay: 3000, // 自动播放的间隔, 默认值为3000
+            pagination: true, // 是否需要显示底部导航点
+            // 图片地址对象, 必需
+            images: ['./img/1.jpg', './img/2.jpg', './img/3.jpg', './img/4.jpg', './img/5.jpg']
+        })
+    </script>
+</body>
+
+</html>

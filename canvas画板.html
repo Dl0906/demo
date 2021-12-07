@@ -1,0 +1,366 @@
+<!--
+ * @Author: donglei
+ * @Date: 2021-12-07 22:17:43
+ * @LastEditors: donglei
+ * @LastEditTime: 2021-12-07 22:23:48
+ * @Description: file content
+ * @FilePath: \demo\canvas画板.html
+-->
+
+<!--
+ * @Author: donglei
+ * @Date: 2021-12-06 19:55:16
+ * @LastEditors: donglei
+ * @LastEditTime: 2021-12-07 22:15:28
+ * @Description: file content
+ * @FilePath: \TEST\canvas练习\画布.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>canvas画板</title>
+    <style>
+        /* reset start */
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        html,
+        body,
+        #app {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #app {
+            position: relative;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        button {
+            outline: none !important;
+        }
+
+        /* reset end */
+
+
+        /* structure start */
+
+        .btn {
+            width: 50px;
+            height: 30px;
+            border: 1px solid black;
+            border-radius: 15px;
+            position: absolute;
+            z-index: 10;
+            cursor: pointer;
+            transition: .3s;
+            padding: 5px;
+            background-clip: content-box;
+            background-color: transparent;
+            font-size: 10px;
+            line-height: 20px;
+            text-align: center;
+        }
+
+        button:nth-of-type(1) {
+            bottom: 180px;
+            left: 50px;
+        }
+
+        button:nth-of-type(2) {
+            bottom: 130px;
+            left: 50px;
+        }
+
+        button:nth-of-type(3) {
+            bottom: 80px;
+            left: 50px;
+        }
+
+        button:nth-of-type(4) {
+            width: 100px;
+            bottom: 30px;
+            left: 50px;
+        }
+
+        button:nth-of-type(5) {
+            width: 100px;
+            bottom: 30px;
+            right: 50px;
+        }
+
+        button:nth-of-type(6) {
+            width: 100px;
+            bottom: 80px;
+            right: 50px;
+        }
+
+        .load {
+            display: block;
+            width: 100px;
+            height: 30px;
+            border: 1px solid black;
+            border-radius: 15px;
+            position: absolute;
+            z-index: 10;
+            cursor: pointer;
+            transition: .3s;
+            padding: 5px;
+            background-clip: content-box;
+            background-color: transparent;
+            font-size: 10px;
+            line-height: 20px;
+            text-align: center;
+            bottom: 130px;
+            right: 50px;
+        }
+
+        .btn:hover,
+        .load:hover {
+            box-shadow: 2px 2px rgba(155, 155, 155, .8);
+        }
+
+        .clear {
+            width: 10px;
+            height: 10px;
+            border: 1px solid black;
+            border-radius: 50%;
+            background-color: #fff;
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        a:link {
+            color: #000;
+        }
+
+        a:visited {
+            color: #000;
+        }
+
+        a:hover {
+            color: #000;
+        }
+
+        a:active {
+            color: #000;
+        }
+
+        /* structure end */
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <canvas id="cvs"></canvas>
+        <button class="btn"></button>
+        <button class="btn"></button>
+        <button class="btn"></button>
+        <button class="btn">随机颜色</button>
+        <button class="btn">清除全部</button>
+        <button class="btn">橡皮擦</button>
+        <a download="image.png" class="load">保存图片</a>
+        <div class="clear"></div>
+    </div>
+    <script src="./public/js/transformCSS.js"></script>
+    <script>
+        let oApp = document.querySelector('#app')
+        let cvs = document.querySelector('#cvs')
+        let ctx = cvs.getContext('2d')
+        let aBtn = document.querySelectorAll('.btn')
+        let oClear = document.querySelector('.clear')
+        let oDownload = document.querySelector('.load')
+
+        // 状态变量
+        let allowDraw = false
+        let penColor = '#000' // 默认黑色
+        let isClear = false // 是否是橡皮擦
+        let allowClear = false // 是否是清除
+
+        function init() {
+            let windowWidth = document.documentElement.clientWidth
+            let windowHeight = document.documentElement.clientHeight
+            cvs.width = windowWidth
+            cvs.height = windowHeight
+        }
+        init()
+        window.onresize = init
+
+        function randomColor() {
+            function randomNum() {
+                return Math.floor(Math.random() * 256)
+            }
+            return `rgb(${randomNum()},${randomNum()},${randomNum()})`
+        }
+        aBtn.forEach((item, index, arr) => {
+            if (index < 3) {
+                item.dataset.bgc = randomColor()
+                item.style.backgroundColor = item.dataset.bgc
+
+                item.onclick = function (e) {
+                    e.stopPropagation()
+                    penColor = item.dataset.bgc
+                }
+            } else if (index === 3) {
+                item.onclick = function (e) {
+                    e.stopPropagation()
+                    item.dataset.bgc = randomColor()
+                    item.style.backgroundColor = item.dataset.bgc
+                    penColor = item.dataset.bgc
+                }
+            } else if (index === 4) {
+                item.onclick = function (e) {
+                    e.stopPropagation()
+                    ctx.clearRect(0, 0, cvs.width, cvs.height)
+                }
+            } else if (index === 5) {
+                item.onclick = function (e) {
+                    e.stopPropagation()
+                    // 点击之后，遮断cvs的监听
+                    isClear = !isClear
+                    if (isClear) {
+                        let startX = e.pageX - 5
+                        let startY = e.pageY - 5
+                        oClear.style.opacity = 1
+                        transformCSS(oClear, 'translate', startX, startY)
+                        this.style.backgroundColor = 'rgb(130,32,43)'
+                    } else {
+                        oClear.style.opacity = 0
+                        this.style.backgroundColor = 'transparent'
+                    }
+                }
+            }
+        })
+
+        cvs.addEventListener('mousedown', function (e) {
+            this.startX = e.offsetX
+            this.startY = e.offsetY
+            if (!isClear) {
+                allowDraw = true
+                ctx.beginPath()
+                if (ctx.globalCompositeOperation === 'destination-out') {
+                    ctx.globalCompositeOperation = 'source-over'
+                }
+                ctx.moveTo(this.startX, this.startY)
+                ctx.strokeStyle = penColor
+                ctx.lineWidth = 5
+                ctx.lineCap = 'round'
+            }
+        }, {
+            passive: true
+        })
+        cvs.addEventListener('mousemove', function (e) {
+            let curX = e.offsetX
+            let curY = e.offsetY
+            if (allowDraw && !isClear) {
+                ctx.lineTo(curX, curY)
+                ctx.stroke()
+                ctx.beginPath()
+                ctx.moveTo(curX, curY)
+                ctx.strokeStyle = penColor
+                ctx.lineWidth = 5
+                ctx.lineCap = 'round'
+            }
+        }, {
+            passive: true
+        })
+
+        cvs.addEventListener('mouseup', function (e) {
+            if (allowDraw) {
+                let endX = e.offsetX
+                let endY = e.offsetY
+                ctx.lineTo(endX, endY)
+                ctx.stroke()
+                allowDraw = false
+                getDrawingUrl()
+            }
+        }, {
+            passive: true
+        })
+        oApp.addEventListener('mousedown', function (e) {
+            if (isClear) {
+                this.startX = e.pageX
+                this.startY = e.pageY
+                // 按下了橡皮擦按钮
+                allowClear = true
+                // ctx.globalCompositeOperation = 'destination-out'
+                ctx.beginPath()
+                ctx.moveTo(this.startX, this.startY)
+                ctx.strokeStyle = ''
+                ctx.lineWidth = 10
+            }
+        }, {
+            passive: true,
+            capture: false
+        })
+        oApp.addEventListener('mousemove', function (e) {
+            let curX = e.pageX
+            let curY = e.pageY
+            if (isClear && !allowClear) {
+                transformCSS(oClear, 'translate', curX - 5, curY - 5)
+            } else if (isClear && allowClear) {
+                transformCSS(oClear, 'translate', curX - 5, curY - 5)
+                ctx.lineTo(curX, curY)
+                ctx.stroke()
+                ctx.globalCompositeOperation = 'destination-out'
+                ctx.beginPath()
+                ctx.moveTo(curX, curY)
+                ctx.strokeStyle = ''
+                ctx.lineWidth = 10
+            }
+        }, {
+            passive: true,
+            capture: false
+        })
+        oApp.addEventListener('mouseup', function (e) {
+            if (isClear && allowClear) {
+                let endX = e.pageX
+                let endY = e.pageY
+                ctx.lineTo(endX, endY)
+                ctx.stroke()
+                allowClear = false
+                getDrawingUrl()
+            }
+        }, {
+            passive: true,
+            capture: false
+        })
+
+
+        function getDrawingUrl() {
+            let imgUrl = cvs.toDataURL('image/png')
+            // let bolb = new Blob(imgUrl, {
+            //     type: "image/png"
+            // })
+
+            oDownload.href = imgUrl
+        }
+    </script>
+</body>
+
+</html>
+
+<!-- 实现橡皮擦的功能 -->
+<!-- 问题：cvs无法获取mousedown，mousemove，mouseup等事件 -->
+<!-- 问题：点击橡皮擦后无法再次绘画 -->
+<!-- 新功能：点击按钮下载图片 -->

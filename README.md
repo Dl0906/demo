@@ -1,3 +1,11 @@
+<!--
+ * @Author: donglei
+ * @Date: 2021-04-22 20:17:17
+ * @LastEditors: donglei
+ * @LastEditTime: 2021-12-07 22:20:25
+ * @Description: file content
+ * @FilePath: \demo\README.md
+-->
 # demo
 some simple animation exercises
 
@@ -45,3 +53,6 @@ some simple animation exercises
 
 ### 封装swiper.js制作适配移动端的轮播图
 [预览样式](https://ayi0906.github.io/demo/轮播图swiper.js的封装/index.html)
+
+### 使用canvas制作的一个画板
+[预览样式](https://ayi0906.github.io/demo/canvas画板.html)

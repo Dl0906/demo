@@ -2,7 +2,7 @@
  * @Author: donglei
  * @Date: 2021-04-22 20:17:17
  * @LastEditors: donglei
- * @LastEditTime: 2021-12-07 22:20:25
+ * @LastEditTime: 2021-12-10 19:52:29
  * @Description: file content
  * @FilePath: \demo\README.md
 -->
@@ -56,3 +56,6 @@ some simple animation exercises
 
 ### 使用canvas制作的一个画板
 [预览样式](https://ayi0906.github.io/demo/canvas画板.html)
+
+### 加上了刻度的canvas时钟
+[预览样式](https://ayi0906.github.io/demo/加上了刻度的canvas时钟.html)

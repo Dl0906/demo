@@ -1,0 +1,206 @@
+<!--
+ * @Author: donglei
+ * @Date: 2021-12-10 19:51:31
+ * @LastEditors: donglei
+ * @LastEditTime: 2021-12-10 19:51:32
+ * @Description: file content
+ * @FilePath: \demo\加上了刻度的canvas时钟.html
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>加上了刻度的canvas时钟</title>
+    <style>
+        /* reset start */
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        html,
+        body,
+        #app {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #mask {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        button {
+            outline: none !important;
+        }
+
+        /* reset end */
+
+
+        /* structure start */
+        #cvs {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -2;
+        }
+
+        /* structure end */
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <canvas id="cvs"></canvas>
+    </div>
+    <div id="mask"></div>
+    <script>
+        let cvs = document.querySelector('#cvs')
+        let ctx = cvs.getContext('2d')
+
+        let w, h
+        // cvs的宽高应该与页面同高
+        function init() {
+            w = document.documentElement.clientWidth
+            h = document.documentElement.clientHeight
+            cvs.width = w
+            cvs.height = h
+        }
+
+        // 计算宽高
+        init()
+        // 修改坐标点
+        ctx.translate(w / 2, h / 2)
+        // 视口大小修改后 重新设置cvs的大小和坐标原点
+        window.onresize = function () {
+            init()
+            ctx.translate(w / 2, h / 2)
+        }
+
+        // 按每秒60次重绘
+        setInterval(() => {
+            drawClock(ctx)
+        }, 1000 / 60);
+
+        // 绘制时钟
+        function drawClock(ctx) {
+            // 清除全部图案
+            ctx.clearRect(-w / 2, -h / 2, w, h)
+
+            // 绘制内圆
+            ctx.beginPath()
+            ctx.strokeStyle = 'black'
+            ctx.lineWidth = 1
+            ctx.moveTo(200, 0)
+            ctx.arc(0, 0, 200, 0, Math.PI / 180 * 360, true)
+            ctx.stroke()
+
+            // 绘制外圆
+            ctx.beginPath()
+            ctx.moveTo(210, 0)
+            ctx.arc(0, 0, 210, 0, Math.PI / 180 * 360, true)
+            ctx.stroke()
+            // 绘制时钟刻度
+            let hourDeg = 30
+            for (let i = 0; i < 12; i++) {
+                let startX = 180 * Math.cos(Math.PI / 180 * hourDeg * i)
+                let startY = 180 * Math.sin(Math.PI / 180 * hourDeg * i)
+                let endX = 200 * Math.cos(Math.PI / 180 * hourDeg * i)
+                let endY = 200 * Math.sin(Math.PI / 180 * hourDeg * i)
+                ctx.beginPath()
+                ctx.moveTo(startX, startY)
+                ctx.lineTo(endX, endY)
+                ctx.stroke()
+            }
+
+            // 绘制分针刻度
+            let minDeg = 6
+            for (let i = 0; i < 60; i++) {
+                if (i % 5 === 0) continue
+                let startX = 190 * Math.cos(Math.PI / 180 * minDeg * i)
+                let startY = 190 * Math.sin(Math.PI / 180 * minDeg * i)
+                let endX = 200 * Math.cos(Math.PI / 180 * minDeg * i)
+                let endY = 200 * Math.sin(Math.PI / 180 * minDeg * i)
+                ctx.beginPath()
+                ctx.moveTo(startX, startY)
+                ctx.lineTo(endX, endY)
+                ctx.stroke()
+            }
+
+            function drawTime() {
+                let time = new Date()
+                let h = time.getHours()
+                let m = time.getMinutes()
+                let s = time.getSeconds()
+                // 时针每小时经过30deg 分针每分钟使时针经过30/60deg 秒针每秒使时针经过30/60/60deg
+                let hourDeg = h * 30 + m * 30 / 60 + s * 30 / 60 / 60
+                let hourX = 120 * Math.cos(Math.PI / 180 * (hourDeg - 90))
+                let hourY = 120 * Math.sin(Math.PI / 180 * (hourDeg - 90))
+                // 分针每分钟使分针经过360/60deg 秒针每秒使分针经过360/60/60deg
+                let minDeg = m * 6 + s * 6 / 60
+                let minX = 135 * Math.cos(Math.PI / 180 * (minDeg - 90))
+                let minY = 135 * Math.sin(Math.PI / 180 * (minDeg - 90))
+                // 秒针每秒使秒针经过360/60deg
+                let secDeg = s * 6
+                let secX = 150 * Math.cos(Math.PI / 180 * (secDeg - 90))
+                let secY = 150 * Math.sin(Math.PI / 180 * (secDeg - 90))
+                // 绘制指针
+                ctx.beginPath()
+                // 绘制时针
+                ctx.moveTo(0, 0)
+                ctx.strokeStyle = 'black'
+                ctx.lineWidth = 5
+                ctx.lineCap = 'round'
+                ctx.lineTo(hourX, hourY)
+                ctx.stroke()
+                // 绘制分针
+                ctx.beginPath()
+                ctx.moveTo(0, 0)
+                ctx.lineWidth = 3
+                ctx.lineTo(minX, minY)
+                ctx.stroke()
+                // 绘制秒针
+                ctx.beginPath()
+                ctx.moveTo(0, 0)
+                ctx.strokeStyle = 'red'
+                ctx.lineWidth = '1'
+                ctx.lineTo(secX, secY)
+                ctx.stroke()
+
+                // 绘制中心点
+                ctx.beginPath()
+                ctx.moveTo(5, 0)
+                ctx.strokeStyle = 'black'
+                ctx.arc(0, 0, 5, 0, Math.PI / 180 * 360, true)
+                ctx.closePath()
+                ctx.fillStyle = 'black'
+                ctx.fill()
+            }
+            drawTime()
+        }
+    </script>
+</body>
+
+</html>

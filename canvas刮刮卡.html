@@ -1,0 +1,121 @@
+<!--
+ * @Author: donglei
+ * @Date: 2021-12-12 10:34:55
+ * @LastEditors: donglei
+ * @LastEditTime: 2021-12-12 10:34:55
+ * @Description: file content
+ * @FilePath: \demo\canvas刮刮卡.html
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>刮刮卡</title>
+    <style>
+        /* reset start */
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        html,
+        body,
+        #app {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        button {
+            outline: none !important;
+        }
+
+        /* reset end */
+
+
+        /* structure start */
+        canvas {
+            display: block;
+            margin: 100px auto;
+            border: 1px solid black;
+            border-radius: 15px;
+            background: url('../img/5d54146aaeae8704147c8d6a03abf1f0.jpeg') no-repeat center center / cover;
+        }
+
+        /* structure end */
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <canvas id="cvs" width="800" height="600"></canvas>
+    </div>
+    <script>
+        let cvs = document.querySelector('#cvs')
+        let ctx = cvs.getContext('2d')
+        // 设置背景文字或图片
+        // let fs = 100
+        // ctx.font = '100px bold Arial'
+        // while (ctx.measureText('恭喜中奖').width > 400) {
+        //     fs--
+        //     ctx.font = fs + 'px bold Arial'
+        // }
+        // ctx.fillStyle = '#de3f7c'
+        // ctx.textAlign = 'center'
+        // ctx.textBaseLine = 'middle'
+        // ctx.fillText('恭喜中奖', 400, 300)
+
+        // 不可以设置文字，它会被认为是目标图形的一部分
+        // 也不可以设置图片，他也会被认为是目标图形的一部分
+        // 通过设置背景图来达到目的
+
+        // let oImg = document.createElement('img')
+        // oImg.src = '../img/img (3).jpeg'
+        // oImg.onload = function () {
+        //     ctx.drawImage(oImg, 0, 0, cvs.width, cvs.height)
+        // }
+
+        // 设置覆盖
+        ctx.fillStyle = '#4f383e'
+        ctx.fillRect(0, 0, cvs.width, cvs.height)
+
+        ctx.globalCompositeOperation = 'destination-out'
+
+        // 设置刮刮卡
+        let isDown = false
+        cvs.onmousedown = function (e) {
+            isDown = true
+            ctx.beginPath()
+            ctx.lineWidth = 15
+            ctx.lineCap = 'round'
+            ctx.strokeStyle = ''
+            ctx.moveTo(e.offsetX, e.offsetY)
+        }
+        cvs.onmousemove = function (e) {
+            if (!isDown) return
+            ctx.lineTo(e.offsetX, e.offsetY)
+            ctx.stroke()
+        }
+        cvs.onmouseup = function (e) {
+            isDown = false
+        }
+    </script>
+</body>
+
+</html>

@@ -2,7 +2,7 @@
  * @Author: donglei
  * @Date: 2021-04-22 20:17:17
  * @LastEditors: donglei
- * @LastEditTime: 2021-12-11 10:22:39
+ * @LastEditTime: 2021-12-12 10:38:41
  * @Description: file content
  * @FilePath: \demo\README.md
 -->
@@ -62,3 +62,6 @@ some simple animation exercises
 
 ### canvas的drawImage方法写的飞鸟动画
 [预览样式](https://ayi0906.github.io/demo/canvas飞鸟.html)
+
+### canvas刮刮卡
+[预览样式](https://ayi0906.github.io/demo/canvas刮刮卡.html)

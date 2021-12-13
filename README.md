@@ -2,7 +2,7 @@
  * @Author: donglei
  * @Date: 2021-04-22 20:17:17
  * @LastEditors: donglei
- * @LastEditTime: 2021-12-12 10:38:41
+ * @LastEditTime: 2021-12-13 20:14:55
  * @Description: file content
  * @FilePath: \demo\README.md
 -->
@@ -65,3 +65,6 @@ some simple animation exercises
 
 ### canvas刮刮卡
 [预览样式](https://ayi0906.github.io/demo/canvas刮刮卡.html)
+
+### canvas灰阶过滤器
+[预览样式](https://ayi0906.github.io/demo/canvas灰阶过滤器.html)

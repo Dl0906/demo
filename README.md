@@ -2,7 +2,7 @@
  * @Author: donglei
  * @Date: 2021-04-22 20:17:17
  * @LastEditors: donglei
- * @LastEditTime: 2021-12-14 23:31:25
+ * @LastEditTime: 2021-12-14 23:35:53
  * @Description: file content
  * @FilePath: \demo\README.md
 -->
@@ -77,4 +77,8 @@ some simple animation exercises
 
 ### 扇形导航
 [预览样式](https://ayi0906.github.io/demo/扇形导航.html)
+
+### canvas马赛克制作
+[预览样式](https://ayi0906.github.io/demo/canvas马赛克制作.html)
+
 

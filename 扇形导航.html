@@ -1,0 +1,145 @@
+<!--
+ * @Author: donglei
+ * @Date: 2021-12-14 21:06:46
+ * @LastEditors: donglei
+ * @LastEditTime: 2021-12-14 23:32:00
+ * @Description: file content
+ * @FilePath: \demo\扇形导航.html
+-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* reset start */
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        html,
+        body,
+        #app {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        button {
+            outline: none !important;
+        }
+
+        /* reset end */
+
+
+        /* structure start */
+        #container {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 250px;
+            height: 250px;
+            border: 1px solid black;
+        }
+
+        .mainBtn {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 49px;
+            height: 49px;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform .5s;
+            z-index: 1;
+        }
+
+        .subBtn {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 42px;
+            height: 42px;
+        }
+
+        .subBtn>li {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+
+
+        /* structure end */
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div id="container">
+            <div class="mainBtn"><img src="./public/扇形导航/home.png" alt=""></div>
+            <ul class="subBtn">
+                <li><img src="./public/扇形导航/clos.png" alt=""></li>
+                <li><img src="./public/扇形导航/full.png" alt=""></li>
+                <li><img src="./public/扇形导航/refresh.png" alt=""></li>
+                <li><img src="./public/扇形导航/open.png" alt=""></li>
+                <li><img src="./public/扇形导航/prev.png" alt=""></li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        // 获取元素
+        let oMainBtn = document.querySelector('.mainBtn')
+        let oSubBtn = document.querySelector('.subBtn')
+        let aLiBtn = oSubBtn.querySelectorAll('li')
+
+
+        // 状态变量
+        let isOpen = false
+        // 主按钮点击旋转
+        let btnDeg = 0
+        oMainBtn.onclick = function (e) {
+            isOpen = !isOpen
+            btnDeg += 360
+            this.style.transform = 'rotateZ(' + btnDeg + 'deg)'
+
+            // 副按钮飞出
+            if (isOpen) {
+                for (let i = 0; i < 5; i++) {
+                    aLiBtn[i].style.transition = 'transform .5s ease '+i*50+'ms'
+                    aLiBtn[i].style.transform = `translate(-${208*Math.sin(Math.PI/180*22.5*i)}px,-${208*Math.cos(Math.PI/180*22.5*i)}px) rotateZ(720deg)`
+                }
+            }else{
+                for (let i = 0; i < 5; i++) {
+                    aLiBtn[i].style.transition = 'transform .5s ease '+i*50+'ms'
+                    aLiBtn[i].style.transform = `translate(0,0) rotateZ(0deg)`
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

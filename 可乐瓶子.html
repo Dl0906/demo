@@ -1,0 +1,108 @@
+<!--
+ * @Author: donglei
+ * @Date: 2021-12-14 20:44:28
+ * @LastEditors: donglei
+ * @LastEditTime: 2021-12-14 21:02:44
+ * @Description: file content
+ * @FilePath: \demo\可乐瓶子.html
+-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* reset start */
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        html,
+        body,
+        #app {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        button {
+            outline: none !important;
+        }
+
+        /* reset end */
+
+
+        /* structure start */
+        #container {
+            width: 194px;
+            height: 336px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: -168px 0 0 -97px;
+            overflow: hidden;
+        }
+
+        .pingzi {
+            width: 100%;
+            height: 100%;
+            background: url('./public/可乐瓶子/coke_can.png') no-repeat center center / cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .bgWrapper {
+            width: 1074px;
+            height: 280px;
+            position: absolute;
+            top: 10px;
+            left: 0;
+            background: url('./public/可乐瓶子/coke_bg.jpg') repeat;
+        }
+
+        /* structure end */
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div id="container">
+            <div class="pingzi"></div>
+            <div class="bgWrapper"></div>
+        </div>
+    </div>
+    <script>
+        let oBg = document.querySelector('.bgWrapper')
+        let left = 0
+        setInterval(() => {
+            if (left <= -537) {
+                left = 0
+                oBg.style.left = left
+            }
+            left--
+            oBg.style.left = left + 'px'
+        }, 10);
+    </script>
+</body>
+
+</html>

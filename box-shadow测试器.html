@@ -1,0 +1,161 @@
+<!--
+ * @Author: donglei
+ * @Date: 2021-12-14 21:14:31
+ * @LastEditors: donglei
+ * @LastEditTime: 2021-12-14 22:15:12
+ * @Description: file content
+ * @FilePath: \demo\box-shadow测试器.html
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* reset start */
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        html,
+        body,
+        #app {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        button {
+            outline: none !important;
+        }
+
+        /* reset end */
+
+
+        /* structure start */
+        #testBox {
+            width: 300px;
+            height: 300px;
+            background-color: indianred;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: .5s;
+        }
+
+        #controlList {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            border: 1px solid black;
+        }
+
+        #controlList>li {
+            display: block;
+            margin: 15px;
+            border: 1px solid black;
+        }
+
+        /* structure end */
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div id="testBox"></div>
+        <ul id="controlList">
+            <li>
+                <span>插页（阴影向内）</span>
+                <input type="checkbox" name="inner" id="" value="1">inset
+                <input type="checkbox" name="inner" id="" value="">none
+            </li>
+            <li><span>x轴偏移量</span><input type="range" name="x" id="" max="100" value="0" step="1"><span>0</span></li>
+            <li><span>y轴偏移量</span><input type="range" name="y" id="" max="100" value="0" step="1"><span>0</span></li>
+            <li><span>模糊半径</span><input type="range" name="fuzzy" id="" max="100" value="0" step="1"><span>0</span></li>
+            <li><span>扩散半径</span><input type="range" name="spread" id="" max="100" value="0" step="1"><span>0</span></li>
+            <li><span>Red</span><input type="range" name="red" id="" max="255" value="0" step="1"><span>0</span></li>
+            <li><span>Green</span><input type="range" name="green" id="" max="255" value="0" step="1"><span>0</span></li>
+            <li><span>Blue</span><input type="range" name="blue" id="" max="255" value="0" step="1"><span>0</span></li>
+            <li><span>Alpha</span><input type="range" name="alpha" id="" max="1" value="1" step="0.1"><span>1</span></li>
+        </ul>
+    </div>
+    <script>
+        // 控制range的value值显示
+        let oBox = document.querySelector('#testBox')
+        let oControlList = document.querySelector('#controlList')
+        let aChk = document.querySelectorAll('input[type="checkbox"]')
+        aChk[1].checked = true
+        let aRange = document.querySelectorAll('input[type="range"]')
+        let x = aRange[0]
+        let y = aRange[1]
+        let fuzzy = aRange[2]
+        let spread = aRange[3]
+        let red = aRange[4]
+        let green = aRange[5]
+        let blue = aRange[6]
+        let alpha = aRange[7]
+
+        let isInset = false
+
+        for (let i = 0; i < aChk.length; i++) {
+            aChk[i].onchange = function (e) {
+                isInset = Boolean(this.value)
+                console.log(isInset)
+                aChk[0].checked = isInset
+                aChk[1].checked = !isInset
+                let cssText
+                if (isInset) {
+                    cssText =
+                        `inset ${x.value}px ${y.value}px ${fuzzy.value}px ${spread.value}px rgba(${red.value},${green.value},${blue.value},${alpha.value})`
+                } else {
+                    cssText =
+                        `${x.value}px ${y.value}px ${fuzzy.value}px ${spread.value}px rgba(${red.value},${green.value},${blue.value},${alpha.value})`
+                }
+                oBox.style.boxShadow = cssText
+            }
+        }
+
+        oControlList.addEventListener('input', function (e) {
+            let el = e.target
+
+            if (el.type === 'range') {
+                let oSpan = el.parentNode.querySelectorAll('span')[1]
+                let val = el.value
+                oSpan.innerText = val
+                let cssText
+                if (isInset) {
+                    cssText =
+                        `inset ${x.value}px ${y.value}px ${fuzzy.value}px ${spread.value}px rgba(${red.value},${green.value},${blue.value},${alpha.value})`
+                } else {
+                    cssText =
+                        `${x.value}px ${y.value}px ${fuzzy.value}px ${spread.value}px rgba(${red.value},${green.value},${blue.value},${alpha.value})`
+                }
+                oBox.style.boxShadow = cssText
+            }
+        }, {
+            passive: true,
+            capture: false
+        })
+    </script>
+</body>
+
+</html>

@@ -2,7 +2,7 @@
  * @Author: donglei
  * @Date: 2021-04-22 20:17:17
  * @LastEditors: donglei
- * @LastEditTime: 2021-12-13 20:14:55
+ * @LastEditTime: 2021-12-14 23:31:25
  * @Description: file content
  * @FilePath: \demo\README.md
 -->
@@ -68,3 +68,13 @@ some simple animation exercises
 
 ### canvas灰阶过滤器
 [预览样式](https://ayi0906.github.io/demo/canvas灰阶过滤器.html)
+
+### 可乐瓶子
+[预览样式](https://ayi0906.github.io/demo/可乐瓶子.html)
+
+### box-shadow测试器
+[预览样式](https://ayi0906.github.io/demo/box-shadow测试器.html)
+
+### 扇形导航
+[预览样式](https://ayi0906.github.io/demo/扇形导航.html)
+

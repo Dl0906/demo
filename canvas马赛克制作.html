@@ -1,0 +1,219 @@
+<!--
+ * @Author: donglei
+ * @Date: 2021-12-14 18:04:11
+ * @LastEditors: donglei
+ * @LastEditTime: 2021-12-14 20:03:48
+ * @Description: file content
+ * @FilePath: \demo\canvas马赛克制作.html
+-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* reset start */
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        html,
+        body,
+        #app {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        button {
+            outline: none !important;
+            color: #fff;
+            text-align: center;
+        }
+
+        /* reset end */
+
+
+        /* structure start */
+        canvas {
+            border: 1px solid black;
+            border-radius: 15px;
+        }
+
+        #cvs1 {
+            float: left;
+        }
+
+        #cvs2 {
+            float: right;
+        }
+
+        #aCvs::after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        hr {
+            margin-top: 15px;
+        }
+
+        #file1 {
+            display: block;
+            width: 100px;
+            height: 50px;
+            line-height: 50px;
+            border: 1px solid black;
+            border-radius: 5px;
+            background-color: #445698;
+            cursor: pointer;
+            overflow: hidden;
+            margin: 15px auto;
+        }
+
+        #file1>input[type=file] {
+            width: 0;
+            height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+
+        /* structure end */
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div id="aCvs">
+            <canvas id="cvs1"></canvas>
+            <canvas id="cvs2"></canvas>
+        </div>
+        <hr>
+        <button id="file1">选择图片
+            <input type="file" name="" id="" accept="image/*">
+        </button>
+    </div>
+    <script>
+        let cvs1 = document.querySelector('#cvs1')
+        let cvs2 = document.querySelector('#cvs2')
+        let ctx1 = cvs1.getContext('2d')
+        let ctx2 = cvs2.getContext('2d')
+        let oBtn = document.querySelector('#file1')
+        let oFile = oBtn.querySelector('input[type=file]')
+        let size = 5
+        let width, height
+
+        function setWH() {
+            width = viewWidth()
+            height = viewHeight()
+            cvs1.width = cvs1.height = cvs2.width = cvs2.height = width * 0.4
+        }
+        setWH()
+        window.onresize = function () {
+            setWH()
+            if (oFile.files.length !== 0) {
+                getImageDetail()
+            }
+        }
+
+        oBtn.onclick = function () {
+            let ev = new MouseEvent("click")
+            oFile.dispatchEvent(ev)
+        }
+
+        // 读取文件
+        // 读取file文件后，按照比例绘制到画布上
+        // 读取图片数据
+        function getImageDetail() {
+            // let fileList = oFile.files
+            let reader = null
+            if (FileReader) {
+                reader = new FileReader()
+                let p = new Promise((resolve, reject) => {
+                    reader.readAsDataURL(oFile.files[0])
+                    reader.onload = function () {
+                        resolve(reader.result)
+                    }
+                    reader.onerror = function () {
+                        reject()
+                    }
+                }).then(function (data) {
+                    ctx1.clearRect(0, 0, cvs1.width, cvs1.height)
+                    let oImg = document.createElement('img')
+                    oImg.src = data
+                    oImg.onload = function () {
+                        let red, green, blue
+                        if (this.width > this.height) {
+                            let h = this.height / this.width * cvs1.width
+                            ctx1.drawImage(oImg, 0, (cvs1.height - h) / 2, cvs1.width, h)
+                        } else if (this.width < this.height) {
+                            let w = this.width / this.height * cvs1.height
+                            ctx1.drawImage(oImg, (cvs1.width - w) / 2, 0, w, cvs1.height)
+                        } else {
+                            ctx1.drawImage(oImg, 0, 0, cvs1.width, cvs1.height)
+                        }
+                        // 将画布分成 size x size的规格，每一个规格都采用其左上角一样的rgb
+                        // 马赛克的制作：将图片的像素分成 axa 的小正方形，并将整个画布分割，每个小正方形的像素全部采用左上角的第一个像素点的像素
+                        for (let x = 0; x < cvs1.width; x += size) {
+                            for (let y = 0; y < cvs1.height; y += size) {
+                                // 获取的是 size x size规格大小的矩形内的所有像素数据
+                                let curData = ctx1.getImageData(x, y, size, size)
+                                // 获取该矩形内的第一个像素数据
+                                let firstData = [curData.data[0], curData.data[1], curData.data[2], curData.data[3]]
+                                for (let i = 0; i < size; i++) {
+                                    for (let j = 0; j < size; j++) {
+                                        // 以 [2,3] 第二行第三个为例， 像素点的开始index为 2*10*4+3*4 
+                                        let index = i * size * 4 + j * 4
+                                        curData.data[index] = firstData[0]
+                                        curData.data[index + 1] = firstData[1]
+                                        curData.data[index + 2] = firstData[2]
+                                        curData.data[index + 3] = firstData[3]
+                                    }
+                                }
+                                ctx2.putImageData(curData, x, y, 0, 0, size, size);
+                            }
+                        }
+                    }
+                }, function () {
+                    console.error('读取图片数据失败，请检查源代码')
+                })
+            } else {
+                console.error('浏览器不支持FileReader对象')
+            }
+        }
+        // 监听oFile是否选择有文件，有的话就处理，没有拉倒
+        oFile.addEventListener('change', getImageDetail, {
+            capture: false,
+            passive: true
+        })
+
+
+        function viewWidth() {
+            return document.documentElement.clientWidth || window.innerWidth
+        }
+
+        function viewHeight() {
+            return document.documentElement.clientHeight || window.innerHeight
+        }
+    </script>
+</body>
+
+</html>

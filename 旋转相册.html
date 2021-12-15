@@ -1,0 +1,133 @@
+<!--
+ * @Author: donglei
+ * @Date: 2021-12-15 09:38:30
+ * @LastEditors: donglei
+ * @LastEditTime: 2021-12-15 10:05:31
+ * @Description: file content
+ * @FilePath: \demo\旋转相册.html
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* reset start */
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        html,
+        body,
+        #app {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        button {
+            outline: none !important;
+        }
+
+        /* reset end */
+
+
+        /* structure start */
+
+        ul {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: -150px 0 0 -150px;
+            width: 300px;
+            height: 150px;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            transform: rotateX(-15deg);
+        }
+
+        li {
+            width: 300px;
+            height: 150px;
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: transform .5s;
+        }
+
+        button {
+            width: 100px;
+            height: 70px;
+            line-height: 70px;
+            text-align: center;
+        }
+        img{
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <ul>
+            <li><img src="./testImg/img (12).jpg" alt=""></li>
+            <li><img src="./testImg/img (1).jpg" alt=""></li>
+            <li><img src="./testImg/img (2).jpg" alt=""></li>
+            <li><img src="./testImg/img (3).jpg" alt=""></li>
+            <li><img src="./testImg/img (13).jpg" alt=""></li>
+            <li><img src="./testImg/img (5).jpg" alt=""></li>
+            <li><img src="./testImg/img (10).jpg" alt=""></li>
+            <li><img src="./testImg/img (7).jpg" alt=""></li>
+            <li><img src="./testImg/img (11).jpg" alt=""></li>
+        </ul>
+        <button>旋转</button>
+    </div>
+    <script>
+        let oUl = document.querySelector('ul')
+        let aLi = oUl.querySelectorAll('li')
+        let oBtn = document.querySelector('button')
+        let len = aLi.length
+        let step = 0
+        aLi.forEach((item, index, arr) => {
+            item.style.backgroundColor = randomColor()
+            item.style.transform = `rotateY(${index*(360/len)}deg) translateZ(500px)`
+        })
+
+        oBtn.onclick = function () {
+            step += (360 / len)
+
+            aLi.forEach((item, index, arr) => {
+                item.style.transform = `rotateY(${index*(360/len)+step}deg) translateZ(500px)`
+            })
+        }
+
+
+        function randomColor() {
+            let c1 = Math.floor(Math.random() * 256)
+            let c2 = Math.floor(Math.random() * 256)
+            let c3 = Math.floor(Math.random() * 256)
+            return `rgb(${c1},${c2},${c3})`
+        }
+    </script>
+</body>
+
+</html>

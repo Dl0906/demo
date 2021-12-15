@@ -1,0 +1,443 @@
+<!--
+ * @Author: donglei
+ * @Date: 2021-12-15 11:43:28
+ * @LastEditors: donglei
+ * @LastEditTime: 2021-12-15 20:42:24
+ * @Description: file content
+ * @FilePath: \demo\天猫墙.html
+-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* reset start */
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        html,
+        body,
+        #app {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        button {
+            outline: none !important;
+        }
+
+        /* reset end */
+
+
+        /* structure start */
+        /* 2.完成基本样式 */
+        li {
+            width: 150px;
+            height: 100px;
+            border: 1px solid transparent;
+            background-color: transparent;
+            background-clip: content-box;
+            float: left;
+            cursor: pointer;
+            position: relative;
+            transition: transform .5s;
+        }
+
+        ul {
+            width: 900px;
+            height: 400px;
+            background-color: #ccc;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .li-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            perspective: 800px;
+            transform-style: preserve-3d;
+            /* transition: transform .5s; */
+            background-color: #fff;
+        }
+
+        .front,
+        .back {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            backface-visibility: hidden;
+        }
+
+        .back {
+            transform: rotateY(180deg);
+        }
+
+        .front>img,
+        .back>img,
+        .control-btn img {
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .control-btn {
+            background-color: #fff;
+        }
+
+        .control-btn>.li-container {
+            background-color: transparent;
+        }
+
+        .control-btn>span {
+            display: block;
+            position: absolute;
+            width: 100%;
+            bottom: 10%;
+            text-align: center;
+        }
+
+        /* .control-btn 特殊，单独设置样式 */
+
+
+        /* structure end */
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <ul>
+            <!-- 6x4 -->
+            <li>
+                <div class="li-container">
+                    <div class="front">
+                        <img src="" alt="">
+                    </div>
+                    <div class="back">
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="li-container">
+                    <div class="front">
+                        <img src="" alt="">
+                    </div>
+                    <div class="back">
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="li-container">
+                    <div class="front">
+                        <img src="" alt="">
+                    </div>
+                    <div class="back">
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="li-container">
+                    <div class="front">
+                        <img src="" alt="">
+                    </div>
+                    <div class="back">
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="li-container">
+                    <div class="front">
+                        <img src="" alt="">
+                    </div>
+                    <div class="back">
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="li-container">
+                    <div class="front">
+                        <img src="" alt="">
+                    </div>
+                    <div class="back">
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="li-container">
+                    <div class="front">
+                        <img src="" alt="">
+                    </div>
+                    <div class="back">
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="li-container">
+                    <div class="front">
+                        <img src="" alt="">
+                    </div>
+                    <div class="back">
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="li-container">
+                    <div class="front">
+                        <img src="" alt="">
+                    </div>
+                    <div class="back">
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="li-container">
+                    <div class="front">
+                        <img src="" alt="">
+                    </div>
+                    <div class="back">
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="li-container">
+                    <div class="front">
+                        <img src="" alt="">
+                    </div>
+                    <div class="back">
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="li-container">
+                    <div class="front">
+                        <img src="" alt="">
+                    </div>
+                    <div class="back">
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="li-container">
+                    <div class="front">
+                        <img src="" alt="">
+                    </div>
+                    <div class="back">
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="li-container">
+                    <div class="front">
+                        <img src="" alt="">
+                    </div>
+                    <div class="back">
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="li-container">
+                    <div class="front">
+                        <img src="" alt="">
+                    </div>
+                    <div class="back">
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="li-container">
+                    <div class="front">
+                        <img src="" alt="">
+                    </div>
+                    <div class="back">
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="li-container">
+                    <div class="front">
+                        <img src="" alt="">
+                    </div>
+                    <div class="back">
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="li-container">
+                    <div class="front">
+                        <img src="" alt="">
+                    </div>
+                    <div class="back">
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="li-container">
+                    <div class="front">
+                        <img src="" alt="">
+                    </div>
+                    <div class="back">
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="li-container">
+                    <div class="front">
+                        <img src="" alt="">
+                    </div>
+                    <div class="back">
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="li-container">
+                    <div class="front">
+                        <img src="" alt="">
+                    </div>
+                    <div class="back">
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="li-container">
+                    <div class="front">
+                        <img src="" alt="">
+                    </div>
+                    <div class="back">
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="li-container">
+                    <div class="front">
+                        <img src="" alt="">
+                    </div>
+                    <div class="back">
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </li>
+            <li class="control-btn">
+                <div class="li-container">
+                    <img src="" alt="">
+                </div>
+                <span>点击刷新</span>
+            </li>
+        </ul>
+    </div>
+    <script>
+        let oUl = document.querySelector('ul')
+        let aLi = oUl.querySelectorAll('li')
+        // 1. 完成html骨架
+
+        aLi.forEach((item, index, arr) => {
+            if (index === 23) {
+                let oImg = item.querySelector('img')
+                oImg.src = './public/天猫墙/refresh.png'
+                return
+            }
+            let oFront = item.querySelector('.front')
+            let oFrontImg = oFront.querySelector('img')
+            let oBack = item.querySelector('.back')
+            let oBackImg = oBack.querySelector('img')
+            // oFront.style.transition = oBack.style.transition = 'transform .5s'
+            oFrontImg.src = './public/天猫墙/icon' + (index * 2 + 1) + '.jpg'
+            oBackImg.src = './public/天猫墙/icon' + (index * 2 + 2) + '.jpg'
+            if (index === 22) {
+                oBackImg.src = './public/天猫墙/icon1.jpg'
+            }
+
+        })
+
+        // 3.设置control-btn的样式
+        let oBtn = document.querySelector('.control-btn')
+        let oContainer = oBtn.querySelector('.li-container')
+        let oImg = oBtn.querySelector('img')
+        let oSpan = oBtn.querySelector('span')
+        // 状态变量
+        let deg = 0
+        let liDeg = 0
+        // 常规设置
+        oBtn.style.transition = 'background-color .5s'
+        oSpan.style.transition = 'color .5s'
+        oBtn.onmouseenter = function () {
+            oImg.src = './public/天猫墙/refresh-white.png'
+            oBtn.style.backgroundColor = 'red'
+            oSpan.style.color = 'white'
+        }
+
+        oBtn.onmouseleave = function () {
+            oImg.src = './public/天猫墙/refresh.png'
+            oBtn.style.backgroundColor = '#fff'
+            oSpan.style.color = 'black'
+        }
+
+        oBtn.onclick = function () {
+            deg += 360
+            liDeg -= 180
+            oContainer.style.transition = 'transform .5s'
+            oContainer.style.transform = 'rotateZ(' + deg + 'deg)'
+            // 4.点击后所有的都翻转
+            aLi.forEach((item, index, arr) => {
+                // 5.按次序点击
+                if (index === 23) {
+                    return
+                }
+                let oContainer = item.querySelector('.li-container')
+                let idx = index + (Math.floor(index / 6)) * -5
+                oContainer.style.transition = 'transform .5s ' + (idx * 100) + 'ms'
+                oContainer.style.transform = 'rotateY(' + liDeg + 'deg)'
+            })
+        }
+    </script>
+</body>
+
+</html>

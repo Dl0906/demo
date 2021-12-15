@@ -2,7 +2,7 @@
  * @Author: donglei
  * @Date: 2021-04-22 20:17:17
  * @LastEditors: donglei
- * @LastEditTime: 2021-12-14 23:35:53
+ * @LastEditTime: 2021-12-15 21:14:31
  * @Description: file content
  * @FilePath: \demo\README.md
 -->
@@ -81,4 +81,22 @@ some simple animation exercises
 ### canvas马赛克制作
 [预览样式](https://ayi0906.github.io/demo/canvas马赛克制作.html)
 
+### 旋转相册
+[预览样式](https://ayi0906.github.io/demo/旋转相册.html)
 
+### 3D立方体相册
+[预览样式](https://ayi0906.github.io/demo/3D立方体相册.html)
+
+### 天猫墙
+[预览样式](https://ayi0906.github.io/demo/天猫墙.html)
+- 难点在于对于[0-22]的数组，如何拟定函数使
+  - 序号0，返回0
+  - 序号1，6返回1
+  - 序号2，7，12返回3
+  - 序号3，8，13，18返回3
+  - 序号4，9，14，19返回4
+  - ...
+- 通过画坐标轴图样发现它们都是一次函数图样，得到函数 `y=x+(Math.floor(x/6))*-5`
+
+### 开机动画loading向上跳动
+[预览样式](https://ayi0906.github.io/demo/开机动画loading向上跳动.html)
